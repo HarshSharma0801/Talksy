@@ -5,7 +5,9 @@ export const timeConvert = (timestamp: string | Date): string => {
   const twentyFourHoursAgo = subHours(now, 24);
 
   const parsedTimestamp =
-    timestamp instanceof Date ? timestamp : new Date(timestamp);
+    timestamp instanceof Date 
+      ? new Date(timestamp.getTime() + timestamp.getTimezoneOffset() * 60000) 
+      : new Date(new Date(timestamp).getTime() + new Date(timestamp).getTimezoneOffset() * 60000);
 
   if (isBefore(parsedTimestamp, twentyFourHoursAgo)) {
     return format(parsedTimestamp, "d MMM yyyy");
